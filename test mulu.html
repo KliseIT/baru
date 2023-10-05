@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Control Tab</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Control Tab Example</h1>
+        <button id="openTabButton" class="btn btn-outline-info" onclick="openTab()">Open Tab</button>
+        <button id="closeSelfButton" class="btn btn-outline-danger" onclick="closeSelf()" style="display: none;">Close This Tab</button>
+    </div>
+
+    <script>
+        let openedTab = null;
+
+        function openTab() {
+            // Open a new tab and store a reference to it
+            openedTab = window.open("about:blank", "_blank");
+
+            // Check if the new tab was successfully opened
+            if (openedTab) {
+                // Show the "Close This Tab" button
+                document.getElementById("closeSelfButton").style.display = "block";
+
+                // Disable the "Open Tab" button
+                document.getElementById("openTabButton").disabled = true;
+            } else {
+                // Handle the case where the browser blocked the new tab
+                alert("The browser blocked the new tab. Please allow pop-ups for this site.");
+            }
+        }
+
+        function closeSelf() {
+            // Close the current tab
+            window.close();
+        }
+
+        // Check if the opened tab is closed
+        function checkOpenedTab() {
+            if (openedTab && openedTab.closed) {
+                // If the opened tab is closed, reveal the "Open Tab" button
+                document.getElementById("openTabButton").disabled = false;
+                document.getElementById("closeSelfButton").style.display = "none";
+            } else {
+                // If the opened tab is still open, continue checking
+                setTimeout(checkOpenedTab, 150);
+            }
+        }
+
+        // Start checking the status of the opened tab
+        checkOpenedTab();
+    </script>
+</body>
+</html>
